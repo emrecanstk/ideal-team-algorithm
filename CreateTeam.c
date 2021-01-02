@@ -3,7 +3,7 @@
 #include<string.h>
 
 /*
-	Emre Can Satýk's note:
+	Emre Can SatÄ±k's note:
 	An example I wrote for 2v2 and 3v3 matches. You can adapt this for any type of encounter you want.
 */
 
