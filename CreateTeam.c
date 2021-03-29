@@ -10,7 +10,7 @@
 int main() {
 	
 	int height[10],points[10],weight[10],score[10],dif[126];
-	int selection,i,x,y,min=999999999,max=-1;
+	int selection,i,j,x,y,min=999999999,max=-1;
 	char n0[20],n1[20],n2[20],n3[20],n4[20],n5[20];
 	char *names[6]={n0,n1,n2,n3,n4,n5};
 	
@@ -42,29 +42,27 @@ int main() {
 		score[i]=height[i]*2+points[i]*3+weight[i]*1;          // You can change this.
 	}
 	
+	int total_score = 0;
+
+	for(i=0;i<x;i++) {
+		total_score += score[i];
+	}
+
 	if(selection==1) {                                           // These are for calculate different teams.
-		dif[0]=abs((score[0]+score[1])-(score[2]+score[3]));
-		dif[1]=abs((score[0]+score[2])-(score[1]+score[3]));
-		dif[2]=abs((score[0]+score[3])-(score[1]+score[2]));		
-	}
-	 
-	if(selection==2) {                                            // These are for calculate different teams.
-		dif[0]=abs((score[0]+score[1]+score[2])-(score[3]+score[4]+score[5]));
-		dif[1]=abs((score[0]+score[1]+score[3])-(score[2]+score[4]+score[5]));
-		dif[2]=abs((score[0]+score[1]+score[4])-(score[2]+score[3]+score[5]));
-		dif[3]=abs((score[0]+score[1]+score[5])-(score[2]+score[3]+score[4]));
-		dif[4]=abs((score[1]+score[2]+score[3])-(score[0]+score[4]+score[5]));
-		dif[5]=abs((score[1]+score[2]+score[4])-(score[0]+score[3]+score[5]));
-		dif[6]=abs((score[1]+score[2]+score[5])-(score[0]+score[3]+score[4]));
-		dif[7]=abs((score[2]+score[0]+score[3])-(score[1]+score[4]+score[5]));
-		dif[8]=abs((score[2]+score[0]+score[4])-(score[1]+score[3]+score[5]));
-		dif[9]=abs((score[2]+score[0]+score[5])-(score[1]+score[3]+score[4]));
+		for(i=0;i<y;i++) {
+			dif[i] = abs((score[0]+score[i+1])-(total_score-(score[0]+score[i+1])));
+		}
 	}
 	
-	for(i=0;i<x;i++) {                               // This is for see this player's score. (if you want, you can delete this loop.)
-		printf("\n- %s's Score: %d",names[i],score[i]);
+	if(selection==2) {                                           // These are for calculate different teams.
+		for(i=0;i<4;i++) {
+			int fix = score[0]+score[i+1];
+			for(j=0;j<(4-i);j++) {
+				dif[i] = abs((fix+score[j+i+2])-(total_score-(fix+score[j+i+2])));
+			}
+		}
 	}
-	
+
 	for(i=0;i<y;i++) {            // This is for ideal dif. (dif: difference)
 		if(dif[i]<min) {
 			min=dif[i];
